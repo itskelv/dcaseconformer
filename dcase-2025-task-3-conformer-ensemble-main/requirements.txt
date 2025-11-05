@@ -1,0 +1,19 @@
+# Core libraries
+numpy
+scipy
+pandas
+matplotlib
+
+torch>=2.3.0
+torchvision>=0.15
+
+librosa
+soundfile
+
+tqdm
+
+scikit-learn
+
+opencv-python
+
+argparse

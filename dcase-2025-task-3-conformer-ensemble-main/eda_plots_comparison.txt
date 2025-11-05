@@ -1,0 +1,43 @@
+Comparison of Train and Test Datasets
+=================================
+
+1. Class Distribution Comparison
+--------------------------
+dev-train-synth class counts:
+class
+3     409019
+7     278263
+10    234519
+11    648686
+12    425522
+
+2. Event Duration Comparison
+------------------------
+dev-train-synth mean event durations:
+class
+3     50.0
+7     50.0
+10    50.0
+11    50.0
+12    50.0
+
+3. Mean Distance Comparison
+------------------------
+dev-train-synth mean distances:
+class
+3     320.274325
+7     348.521248
+10    320.836180
+11    336.608886
+12    330.598634
+
+4. Onscreen Ratio Comparison
+-------------------------
+dev-train-synth onscreen ratios:
+class
+3     0.277747
+7     0.278438
+10    0.285768
+11    0.283845
+12    0.279612
+
