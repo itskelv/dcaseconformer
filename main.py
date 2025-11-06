@@ -119,19 +119,24 @@ def main():
 
     seld_model = SELDModel(params=params).to(device)
 
-    wandb.init(
-        project="synth_data_runs_iter_1",
-        name="baseline_model_with_conformer_blocks_MULTIACCDOA",
-        config={
-            "learning_rate": params['learning_rate'],
-            "architecture": "ConformerBlocks",
-            "dataset": "SynthDataset + Dev-train-tau",
-            "eval_dataset": "dev-test-sony",
-            "epochs": 200,
-        },
-    )
-    wandb.config.update(params)
-    wandb.watch(seld_model, log="all", log_freq=100)
+    USE_WANDB = False
+
+    if USE_WANDB:
+        import wandb
+        wandb.init(
+            project="synth_data_runs_iter_1",
+            name="baseline_model_with_conformer_blocks_MULTIACCDOA",
+            config={
+                "learning_rate": params['learning_rate'],
+                "architecture": "ConformerBlocks",
+                "dataset": "SynthDataset + Dev-train-tau",
+                "eval_dataset": "dev-test-sony",
+                "epochs": 200,
+            },
+        )
+        wandb.config.update(params)
+        wandb.watch(seld_model, log="all", log_freq=100)
+
 
     optimizer = torch.optim.Adam(params=seld_model.parameters(), lr=params['learning_rate'], weight_decay=params['weight_decay'])
 
@@ -160,12 +165,13 @@ def main():
         avg_val_loss, metric_scores = val_epoch(seld_model, dev_test_iterator, seld_loss, seld_metrics, output_dir)
         val_f, val_ang_error, val_dist_error, val_rel_dist_error, val_onscreen_acc, class_wise_scr = metric_scores
 
-        wandb.log({
-            "avg_train_loss": avg_train_loss,
-            "avg_val_loss": avg_val_loss,
-            "val_f1": val_f * 100,
-            "val_ang_error": val_ang_error
-        })
+        if USE_WANDB:
+            wandb.log({
+                "avg_train_loss": avg_train_loss,
+                "avg_val_loss": avg_val_loss,
+                "val_f1": val_f * 100,
+                "val_ang_error": val_ang_error
+            })
         # ------------- Log losses and metrics ------------- #
         summary_writer.add_scalar('Loss/Train', avg_train_loss, epoch)
         summary_writer.add_scalar('Loss/Validation', avg_val_loss, epoch)
@@ -206,7 +212,9 @@ def main():
     test_loss, test_metric_scores = val_epoch(seld_model, dev_test_iterator, seld_loss, seld_metrics, output_dir, is_jackknife=use_jackknife)
     test_f, test_ang_error, test_dist_error, test_rel_dist_error, test_onscreen_acc, class_wise_scr = test_metric_scores
 
-    wandb.finish()
+    if USE_WANDB:
+        wandb.finish()
+
     summary_writer.close()
 
     utils.print_results(test_f, test_ang_error, test_dist_error, test_rel_dist_error, test_onscreen_acc, class_wise_scr, params)
