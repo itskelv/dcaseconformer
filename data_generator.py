@@ -41,6 +41,8 @@ class DataGenerator(Dataset):
         self.modality = params['modality']
 
         self.folds = self.get_folds()
+        if self.get_folds():
+            print("DATASET IS NOT EMPTY")
 
         # self.video_files will be an empty [] if self.modality == 'audio'
         self.audio_files, self.video_files, self.label_files = self.get_feature_files()
