@@ -130,6 +130,8 @@ class DataGenerator(Dataset):
         if self.mode != 'eval':
             label_files = sorted(label_files, key=lambda x: x.split('/')[-1])
 
+        print(f"Found {len(audio_files)} audio files and {len(label_files)} label files in {self.feat_dir}")
+
         return audio_files, video_files, label_files
 
     def get_folds(self):
