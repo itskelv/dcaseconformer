@@ -150,7 +150,8 @@ class DataGenerator(Dataset):
 
         audio_files = paired_audio_files
         label_files = paired_label_files
-        print(f"Filtered to {len(audio_files)} matching pairs of audio/label files")
+        print("after sorting:")
+        print(f"Found {len(audio_files)} audio files and {len(label_files)} label files in {self.feat_dir}")
 
         return audio_files, video_files, label_files
 
