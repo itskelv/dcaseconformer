@@ -117,11 +117,11 @@ class DataGenerator(Dataset):
 
         else:  # Original logic for 'dev_train' and 'dev_test'
             for fold in self.folds:
-                audio_files += glob.glob(os.path.join(self.feat_dir, f'stereo_dev/{fold}*.pt'))
-                label_files += glob.glob(os.path.join(self.feat_dir, 'metadata_dev{}/{}*.pt'.format(
-                    '_adpit' if self.params['multiACCDOA'] else '', fold)))
+                audio_files += glob.glob(os.path.join(self.feat_dir, f'stereo_dev/*.pt'))
+                folder = 'metadata_dev_adpit' if self.params['multiACCDOA'] else 'metadata_dev'
+                label_files += glob.glob(os.path.join(self.feat_dir, folder, f'*{fold}*.pt'))
                 if self.modality == 'audio_visual':
-                    video_files += glob.glob(os.path.join(self.feat_dir, f'video_dev/{fold}*.pt'))
+                    video_files += glob.glob(os.path.join(self.feat_dir, f'video_dev/*.pt'))
 
         # Sort files to ensure corresponding audio, video, and label files are in the same order
         audio_files = sorted(audio_files, key=lambda x: x.split('/')[-1])
