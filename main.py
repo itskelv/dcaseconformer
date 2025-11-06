@@ -107,10 +107,11 @@ def main():
     feature_extractor.extract_labels(split='dev')
 
     # Set up dev_train and dev_test data iterator
-    dev_train_dataset = DataGenerator(params=params, mode='dev-train')
+    dev_train_dataset = DataGenerator(params=params, mode='dev_train')
+    print(len(dev_train_dataset))
     dev_train_iterator = DataLoader(dataset=dev_train_dataset, batch_size=params['batch_size'], num_workers=params['nb_workers'], shuffle=params['shuffle'], drop_last=True)
 
-    dev_test_dataset = DataGenerator(params=params, mode='dev-test')
+    dev_test_dataset = DataGenerator(params=params, mode='dev_test')
     dev_test_iterator = DataLoader(dataset=dev_test_dataset, batch_size=params['batch_size'], num_workers=params['nb_workers'], shuffle=False, drop_last=False)
 
     # create model, optimizer, loss and metrics
