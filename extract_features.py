@@ -78,7 +78,8 @@ class SELDFeatureExtractor():
         os.makedirs(os.path.join(self.feat_dir, f'stereo_{split}'), exist_ok=True)
 
         for audio_file in tqdm(audio_files, desc=f"Processing audio files ({split})", unit="file"):
-            filename = os.path.splitext(os.path.basename(audio_file))[0] + '.pt'
+            fold = os.path.basename(audio_file).split('_')[0]
+            filename = f"{fold}_{os.path.basename(audio_file).split('_',1)[1].replace('.wav','.pt')}"
             feature_path = os.path.join(self.feat_dir, f'stereo_{split}', filename)
             # Check if the feature file already exists
             if os.path.exists(feature_path):
@@ -105,7 +106,8 @@ class SELDFeatureExtractor():
         os.makedirs(os.path.join(self.feat_dir, f'video_{split}'), exist_ok=True)
 
         for video_file in tqdm(video_files, desc=f"Processing video files ({split})", unit="file"):
-            filename = os.path.splitext(os.path.basename(video_file))[0] + '.pt'
+            fold = os.path.basename(video_file).split('_')[0]
+            filename = f"{fold}_{os.path.basename(video_file).split('_',1)[1].replace('.mp4','.pt')}"
             feature_path = os.path.join(self.feat_dir, f'video_{split}', filename)
 
             # Check if the feature file already exists
@@ -148,7 +150,8 @@ class SELDFeatureExtractor():
         os.makedirs(os.path.join(self.feat_dir, 'metadata_{}{}'.format(split, '_adpit' if self.params['multiACCDOA'] else '')), exist_ok=True)
 
         for label_file in tqdm(label_files, desc=f"Processing label files ({split})", unit="file"):
-            filename = os.path.splitext(os.path.basename(label_file))[0] + '.pt'
+            fold = os.path.basename(label_file).split('_')[0]
+            filename = f"{fold}_{os.path.basename(label_file).split('_',1)[1].replace('.csv','.pt')}"
             label_path = os.path.join(self.feat_dir, 'metadata_{}{}'.format(split, '_adpit' if self.params['multiACCDOA'] else ''), filename)
 
             # Check if the feature file already exists
