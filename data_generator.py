@@ -103,6 +103,10 @@ class DataGenerator(Dataset):
             tuple: A tuple containing lists of paths to audio feature files, video feature files, and processed label files.
         """
         audio_files, video_files, label_files = [], [], []
+        print(f"Feature dir being used: {self.feat_dir}")
+        print(f"Mode: {self.mode}")
+        print(f"Folds: {self.folds}")
+
 
         # Loop through each fold and collect files
         if self.mode == 'eval':
