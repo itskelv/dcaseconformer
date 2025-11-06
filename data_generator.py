@@ -131,6 +131,26 @@ class DataGenerator(Dataset):
             label_files = sorted(label_files, key=lambda x: x.split('/')[-1])
 
         print(f"Found {len(audio_files)} audio files and {len(label_files)} label files in {self.feat_dir}")
+        audio_files = sorted(audio_files)
+        label_files = sorted(label_files)
+
+        label_basenames = {os.path.basename(x).replace('.pt', '') for x in label_files}
+        paired_audio_files = []
+        paired_label_files = []
+
+        for a in audio_files:
+            base = os.path.basename(a).replace('.pt', '')
+            if base in label_basenames:
+                paired_audio_files.append(a)
+                paired_label_files.append(os.path.join(
+                    self.feat_dir,
+                    f'metadata_dev{"_adpit" if self.params["multiACCDOA"] else ""}',
+                    base + '.pt'
+                ))
+
+        audio_files = paired_audio_files
+        label_files = paired_label_files
+        print(f"Filtered to {len(audio_files)} matching pairs of audio/label files")
 
         return audio_files, video_files, label_files
 
